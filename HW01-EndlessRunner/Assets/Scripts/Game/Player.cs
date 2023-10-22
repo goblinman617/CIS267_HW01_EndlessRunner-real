@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class Player : MonoBehaviour{
     private bool grounded;
     private Animator animator;
 
+    public float slideWaitTime;
+    private float slideWaitDefaultTime;
+
 
     // Start is called before the first frame update
     void Start(){
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour{
         rb.gravityScale = defaultGravity;
         grounded = false;
         animator = GetComponent<Animator>();
+        slideWaitDefaultTime = slideWaitTime;
     }
 
     // Update is called once per frame
@@ -35,16 +40,17 @@ public class Player : MonoBehaviour{
         GameManager.addScore(Time.deltaTime);
     }
 
+    private void bounce() {
+        //stop player from falling further
+        rb.velocity = Vector2.zero;
+        //make player bounce up
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce * .333f);
+    }
     private void jump() {
         if (Input.GetKeyDown(KeyCode.Space) && curJumps < maxJumps) {//inital jump
             curJumps++;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             grounded = false;
-
-            //rotation and animation change
-            //DIRTY SOLUTION
-            //transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-
 
             animator.SetBool("PlayerAirborn", true);
             animator.SetBool("PlayerSliding", false);
@@ -60,6 +66,12 @@ public class Player : MonoBehaviour{
         }
     }
     private void slide() {
+        //  stops slide spam
+        if (slideWaitTime > 0) { 
+            slideWaitTime -= Time.deltaTime;
+            Debug.Log(slideWaitTime);
+        }
+
         if (!grounded){
             //quick fall
             if (Input.GetKeyDown(KeyCode.LeftShift)) {
@@ -71,28 +83,22 @@ public class Player : MonoBehaviour{
 
         //ground slide
         if (grounded) {
+
             if (Input.GetKeyDown(KeyCode.LeftShift)) {
-                GameManager.slideStart(Time.deltaTime);
+                if (slideWaitTime <= 0) {
 
-                
+                    slideWaitTime = slideWaitDefaultTime;
+                    GameManager.slideStart(Time.deltaTime);
+                }
                 animator.SetBool("PlayerSliding", true);
-                //DIRTY SOLUTION
-                //transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
-                //transform.position = new Vector3 (transform.position.x, -6.3341f, transform.position.y);
-
             } else if (Input.GetKey(KeyCode.LeftShift)){
+
+                animator.SetBool("PlayerSliding", true);
                 GameManager.slideContinued(Time.deltaTime);
-                //maybe sliding animation
             } else {
+
                 GameManager.setSpeed(Time.deltaTime);//this will update speed every grounded frame 
                 animator.SetBool("PlayerSliding", false);
-
-                //DIRTY ANIMATION SOLUTION
-                /*if (transform.localRotation != Quaternion.Euler(0f, 0f, 0f)) {
-                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                    transform.position = new Vector3(transform.position.x, -5.475614f, transform.position.y);
-                    animator.SetBool("PlayerSliding", false);
-                }*/
             }
         }
     }
@@ -106,7 +112,6 @@ public class Player : MonoBehaviour{
         }else if (collision.gameObject.CompareTag("Enemy")) {
             //we need an if statement here for the power ups
             if (true) {
-                //change this shit back
                 GameManager.setGameOver(true);
             } else {
 
@@ -115,7 +120,14 @@ public class Player : MonoBehaviour{
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
-
+            //destroy object first to hopefully not 
+            Destroy(collision.gameObject);
+            GameManager.addCombo();
+            if (Input.GetKey(KeyCode.Space)) {
+                jump();
+            } else {
+                bounce();
+            }
         }
     }
 }

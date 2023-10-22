@@ -19,7 +19,7 @@ public static class GameManager {
     //variables for math (K for constant)
     private const float comboK = .36f;
     private const float scoreK = .005f;
-    private const float speedReduction = 2f; // time deltaTime
+    private const float speedReduction = 1.75f; // * time deltaTime
     
     public static void resetAllValues() {
         baseSpeed = 3f;
@@ -62,7 +62,7 @@ public static class GameManager {
             reducedSpeed = maxSpeed; //hard cap to max speed. sorry team
             return reducedSpeed;
         }else if (speed > baseSpeed) { //speed > baseSpeed
-            reducedSpeed = speed - (10 * speedReduction * deltaTime);
+            reducedSpeed = speed - (3.5f * speedReduction * deltaTime);
             return reducedSpeed;
         }else if (baseSpeed > maxBaseSpeed) {
             return maxBaseSpeed;
@@ -73,21 +73,20 @@ public static class GameManager {
     //fix both for delta time
     public static void slideStart(float deltaTime) {
         calcSpeed(deltaTime); //Get updated base Speed
-
-        if (speed > baseSpeed + 5) {
-            speed *= 1.1f; //less spead if you are going 5 over base speed 
-        } else {
-            speed *= 1.35f;//deal with slow down later
-        }
+        
+        speed *= 1.35f;//deal with slow down later
     }
     public static void slideContinued(float deltaTime) {
+        //
         if (speed > maxSpeed) {
             speed -= speedReduction * deltaTime * 10f;
         }else if (speed > baseSpeed + 5) {
-            speed -= speedReduction * deltaTime * 5f;
-        } else if (speed > baseSpeed/2){
+            speed -= speedReduction * deltaTime * 2f;
+
+        }else if (speed > baseSpeed/2){
             speed -= speedReduction * deltaTime;
         }
+        //no else because we dont want keep slowing the player down
     }
 
 
