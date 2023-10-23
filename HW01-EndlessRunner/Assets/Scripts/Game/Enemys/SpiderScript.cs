@@ -3,14 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpiderScript : MonoBehaviour{
+    public float offset;
+    public float speed;
+    private float distanceTraveled;
+    private bool goLeft;
+
+    //spider will just walk back and forth i guess
 
     // Start is called before the first frame update
     void Start(){
-        
+        goLeft = true;
+        distanceTraveled = 0;
     }
 
     // Update is called once per frame
     void Update(){
-        
+        walkCycle();
+    }
+
+    private void walkCycle() {
+        if (goLeft && distanceTraveled > -offset) {
+
+            transform.Translate(Vector2.left * speed * Time.deltaTime);
+            distanceTraveled -= (speed * Time.deltaTime); 
+        }else if (!goLeft && distanceTraveled < offset) {
+
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            distanceTraveled += (speed * Time.deltaTime);
+        } else {
+            goLeft = !goLeft;
+        }
     }
 }

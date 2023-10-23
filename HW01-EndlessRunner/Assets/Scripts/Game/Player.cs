@@ -18,6 +18,9 @@ public class Player : MonoBehaviour{
     public float slideWaitTime;
     private float slideWaitDefaultTime;
 
+    private bool triggerCollisionHappened;
+    private int frameCount;
+
 
     // Start is called before the first frame update
     void Start(){
@@ -31,6 +34,8 @@ public class Player : MonoBehaviour{
         grounded = false;
         animator = GetComponent<Animator>();
         slideWaitDefaultTime = slideWaitTime;
+        triggerCollisionHappened = false;
+        frameCount = 0;
     }
 
     // Update is called once per frame
@@ -38,13 +43,43 @@ public class Player : MonoBehaviour{
         jump();
         slide();
         GameManager.addScore(Time.deltaTime);
+
+        CollisionDelay();
+    }
+
+    private void CollisionDelay() { //should give like 
+        if (triggerCollisionHappened) {
+            frameCount++;
+            if (frameCount > 1) {
+                frameCount = 0;
+                triggerCollisionHappened = false;
+            }
+        }
     }
 
     private void bounce() {
-        //stop player from falling further
+        //set velocity to 0
         rb.velocity = Vector2.zero;
-        //make player bounce up
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce * .333f);
+
+        if (Input.GetKey(KeyCode.Space)) {
+            //apply jump velocity
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            //hold space gravity shenanagins
+            if (rb.velocity.y > 0 && rb.velocity.y < 5) { //y velocity between 0-5
+                if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.LeftShift)) {
+                    rb.gravityScale = spaceHeldGravityScale;
+                }
+            } else if (rb.gravityScale != defaultGravity) {
+                rb.gravityScale = defaultGravity;
+            }
+
+            //not holding space do a small bounce
+        } else {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce * .333f);
+        }
+
+
     }
     private void jump() {
         if (Input.GetKeyDown(KeyCode.Space) && curJumps < maxJumps) {//inital jump
@@ -69,7 +104,6 @@ public class Player : MonoBehaviour{
         //  stops slide spam
         if (slideWaitTime > 0) { 
             slideWaitTime -= Time.deltaTime;
-            Debug.Log(slideWaitTime);
         }
 
         if (!grounded){
@@ -105,29 +139,29 @@ public class Player : MonoBehaviour{
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Ground")) {
+            //set speed on ground collision
+
             curJumps = 0;
             rb.gravityScale = defaultGravity;
             grounded = true;
             animator.SetBool("PlayerAirborn", false);
-        }else if (collision.gameObject.CompareTag("Enemy")) {
-            //we need an if statement here for the power ups
-            if (true) {
-                GameManager.setGameOver(true);
-            } else {
+        }else if (collision.gameObject.CompareTag("Enemy") && !triggerCollisionHappened) {
 
-            }
+            Debug.Log("enemy collision: " + Time.frameCount);
+            GameManager.setGameOver(true);
         }
     }
+    //if trigger and collision happen on same frame.
+    //both will trigger
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
-            //destroy object first to hopefully not 
+
+            triggerCollisionHappened = true;
+            Debug.Log("trigger collsion: " + Time.frameCount);
             Destroy(collision.gameObject);
             GameManager.addCombo();
-            if (Input.GetKey(KeyCode.Space)) {
-                jump();
-            } else {
-                bounce();
-            }
+            bounce();
+
         }
     }
 }

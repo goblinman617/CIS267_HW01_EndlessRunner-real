@@ -7,11 +7,11 @@ using Unity.Properties;
 public static class GameManager {
     //I thought Time.deltaTime was a part of monobehavior for some reason
     //thats why it's passed a bunch but im not gonna change it
-    private static float defaultSpeed = 3f; //3f
-    private static float baseSpeed = 3f; 
+    private static float defaultSpeed = 3.5f; //3f -- trying 3.5f
+    private static float baseSpeed = 3.5f; 
     private static float maxBaseSpeed = 15f; //15f
     private static float maxSpeed = 20f; //20f
-    private static float speed = 3f;
+    private static float speed = 3.5f;
     private static int combo = 0;
     private static float score = 0;
 
@@ -19,7 +19,7 @@ public static class GameManager {
     //variables for math (K for constant)
     private const float comboK = .36f;
     private const float scoreK = .005f;
-    private const float speedReduction = 1.75f; // * time deltaTime
+    private const float speedReduction = 2f; // * time deltaTime
     
     public static void resetAllValues() {
         baseSpeed = 3f;
@@ -30,7 +30,7 @@ public static class GameManager {
     public static void setGameOver(bool gameOverBool) {
         gameOver = gameOverBool;
         if (gameOver) {
-            Debug.Log("saved: " + saveScore((int)score));
+            Debug.Log("saved game: " + saveScore((int)score));
             Time.timeScale = 0f;
         } else {
             resetAllValues();
@@ -54,7 +54,7 @@ public static class GameManager {
         score += (speed * deltaTime) + (combo * deltaTime * 10);// change the combo component when you make combo work.
     }
 
-    //fix for delta time
+
     private static float calcSpeed(float deltaTime) {
         baseSpeed = defaultSpeed + (combo * comboK) + (score * scoreK);
         float reducedSpeed;
@@ -80,7 +80,7 @@ public static class GameManager {
         //
         if (speed > maxSpeed) {
             speed -= speedReduction * deltaTime * 10f;
-        }else if (speed > baseSpeed + 5) {
+        }else if (speed > baseSpeed + 4) {
             speed -= speedReduction * deltaTime * 2f;
 
         }else if (speed > baseSpeed/2){
@@ -91,6 +91,7 @@ public static class GameManager {
 
 
     //Score methods
+    //this should have been in a different static script
     public static bool saveScore(int score) {
         string path = Application.persistentDataPath + "/playerScore.sc";
         BinaryFormatter bf = new BinaryFormatter();

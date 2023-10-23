@@ -17,11 +17,11 @@ public class GroundMovement : MonoBehaviour{
     }
     private void moveGround() {
         localSpeed = GameManager.getSpeed();
-        this.transform.Translate(Vector2.left * Time.deltaTime * localSpeed);
+        transform.Translate(Vector2.left * Time.deltaTime * localSpeed);
     }
     private void checkToDestroy() {
-        if (this.transform.position.x < -35f) {
-            Destroy(this.gameObject);
+        if (transform.position.x < -35f) {
+            Destroy(gameObject);
         }
     }
 }

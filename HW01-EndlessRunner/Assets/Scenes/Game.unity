@@ -179,6 +179,14 @@ PrefabInstance:
       propertyPath: slideWaitTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9122372609971972085, guid: a21f94fe5983145428de954526d39a91, type: 3}
+      propertyPath: m_Size.y
+      value: 2.879171
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122372609971972085, guid: a21f94fe5983145428de954526d39a91, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.14549422
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

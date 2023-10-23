@@ -19,6 +19,7 @@ public class HudScript : MonoBehaviour{
     private const string txtCombo = "Combo: ";
 
 
+
     // Update is called once per frame
     void Update(){
         score.text = txtScore + (int)GameManager.getScore();
@@ -42,13 +43,13 @@ public class HudScript : MonoBehaviour{
         curSpeed = Math.Round(GameManager.getSpeed(), 2);
 
         if (curSpeed >= 15) {
-            speed.color = new Color(255f, 75f, 50f,1f);
+            speed.color = new Color32(255, 75, 50, 255);
         } else if (curSpeed >= 10) {
-            speed.color = new Color(255f, 183f, 51f, 1f);
+            speed.color = new Color32(255, 183, 51, 255);
         } else if (curSpeed >= 5) {
-            speed.color = new Color(255f, 243f, 0f, 1f);
+            speed.color = new Color32(255, 243, 0, 255);
         } else {
-            speed.color = new Color(255f, 255f, 255f, 1f);
+            speed.color = new Color32(255, 255, 255, 255);
         }
     }
     private void enableGameOverScreen() {
