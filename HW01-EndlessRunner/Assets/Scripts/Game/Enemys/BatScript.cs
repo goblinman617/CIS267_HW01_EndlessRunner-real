@@ -18,8 +18,19 @@ public class BatScript : MonoBehaviour{
     void Start(){
         distanceHorizontal = 0;
         distanceVertical = 0;
-        flyLeft = true;
-        flyUp = true;
+
+        if (Random.Range(0, 2) == 1) {
+            flyLeft = true;
+        } else {
+            flyLeft = false;
+        }
+
+        if (Random.Range(0, 2) == 1) {
+            flyUp = true;
+        } else {
+            flyUp = false;
+        }
+
         startingPos = transform.position;
     }
 

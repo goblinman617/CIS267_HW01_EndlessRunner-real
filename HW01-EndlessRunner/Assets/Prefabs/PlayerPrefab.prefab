@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 9122372609971972085}
   - component: {fileID: 4990084094009097407}
   - component: {fileID: 9078162931246917299}
-  - component: {fileID: 2312161237957538863}
+  - component: {fileID: 5086850377163703778}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -239,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.14762092}
+  m_Offset: {x: 0, y: 0.14549422}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -250,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.90187424, y: 2.8631563}
+  m_Size: {x: 0.90187424, y: 2.879171}
   m_EdgeRadius: 0
 --- !u!50 &4990084094009097407
 Rigidbody2D:
@@ -295,8 +295,8 @@ MonoBehaviour:
   spaceHeldGravityScale: 1.2
   defaultGravity: 2
   quickFallSpeed: -15
-  slideWaitTime: 0
---- !u!95 &2312161237957538863
+  slideWaitTime: 0.5
+--- !u!95 &5086850377163703778
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0

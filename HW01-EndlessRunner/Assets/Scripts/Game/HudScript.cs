@@ -11,6 +11,7 @@ public class HudScript : MonoBehaviour{
     public TMP_Text combo;
     public TMP_Text speed;
     public TMP_Text score_endScreen;
+    public TMP_Text popUp;
     public GameObject gameOverScreen;
     public GameObject CSS_menu;
     private double curSpeed;

@@ -12,18 +12,22 @@ public class SpiderScript : MonoBehaviour{
 
     // Start is called before the first frame update
     void Start(){
-        goLeft = true;
+        if (Random.Range(0, 2) == 1) {
+            goLeft = true;
+        } else {
+            goLeft= false;
+        }
         distanceTraveled = 0;
     }
 
     // Update is called once per frame
     void Update(){
         walkCycle();
+        comboBreak();
     }
 
     private void walkCycle() {
         if (goLeft && distanceTraveled > -offset) {
-
             transform.Translate(Vector2.left * speed * Time.deltaTime);
             distanceTraveled -= (speed * Time.deltaTime); 
         }else if (!goLeft && distanceTraveled < offset) {
@@ -32,6 +36,12 @@ public class SpiderScript : MonoBehaviour{
             distanceTraveled += (speed * Time.deltaTime);
         } else {
             goLeft = !goLeft;
+        }
+    }
+
+    private void comboBreak() {
+        if (transform.position.x < -12) {
+            GameManager.resetCombo();
         }
     }
 }
