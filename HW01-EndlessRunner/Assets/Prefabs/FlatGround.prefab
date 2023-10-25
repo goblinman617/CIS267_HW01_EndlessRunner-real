@@ -311,6 +311,10 @@ MonoBehaviour:
   - {fileID: 8807625469729741906}
   - {fileID: 5842701642107188419}
   - {fileID: 1878476985050820719}
+  collectableLocations:
+  - {fileID: 4435835598837463986}
+  - {fileID: 6150863526210680272}
+  - {fileID: 934229845339929526}
 --- !u!1 &5721767671098782760
 GameObject:
   m_ObjectHideFlags: 0

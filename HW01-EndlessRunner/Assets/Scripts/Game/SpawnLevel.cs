@@ -10,13 +10,18 @@ public class SpawnLevel : MonoBehaviour{
 
     private GameObject hazard;
     private GameObject spawnedObj;
+
     private bool spawnedHazards;
+    private int mapsBetweenCollectable;
+    private int lastCollectable;
     private int randomIndex;
 
     // Start is called before the first frame update
     void Start(){
         spawnedObj = Instantiate(grounds[0].gameObject, this.transform);
         spawnedHazards = false;
+        mapsBetweenCollectable = 0;
+        lastCollectable = -1; //no collectable at index -1 so it won't try and reroll for first time
     }
 
     // Update is called once per frame
@@ -24,6 +29,12 @@ public class SpawnLevel : MonoBehaviour{
         spawnGround();
         if (!spawnedHazards) {
             spawnHazards();
+            //put this in here because it needs to be done everytime
+            spawnScoreCollectable();
+        }
+
+        if (mapsBetweenCollectable > 4) {
+            spawnCollectables();
         }
     }
 
@@ -31,17 +42,43 @@ public class SpawnLevel : MonoBehaviour{
         if (spawnedObj.transform.position.x < 25.5f) {
             randomIndex = Random.Range(0, grounds.Length);
             spawnedObj = Instantiate(grounds[randomIndex].gameObject, this.transform);
+
             spawnedHazards = false;
+            mapsBetweenCollectable++;
         }
     }
-    //hazards will be spike trap to jump over
-    //goomba to stomp on
-    //bird to slide under/stomp
-    //swinging axe
 
-    //Rocket will be a timed event handled seperently in its own script
-    //rocket that flies in at player's y cord AND one that flies so they have to slide under/jump over
-    
+    private void spawnScoreCollectable() {
+        int rand_i = Random.Range(0, 3);
+
+        GroundMovement groundScript; 
+        groundScript = spawnedObj.GetComponent<GroundMovement>();
+
+        //3 is score collectable
+        Instantiate(collectables[3].gameObject, groundScript.collectableLocations[rand_i].gameObject.transform); //pray to god
+    }
+
+    private void spawnCollectables() {
+        //for ground locations
+        GroundMovement groundScript;
+        groundScript = spawnedObj.GetComponent<GroundMovement>();
+
+        int rand_i;
+        int rand_spawn_i;
+
+        do {
+            rand_i = Random.Range(0, 3);
+        } while (rand_i == lastCollectable);
+        lastCollectable = rand_i;
+
+        rand_spawn_i = Random.Range(0, 3); //
+
+        Instantiate(collectables[rand_i].gameObject, groundScript.spawnLocations[rand_spawn_i].gameObject.transform);
+
+        //reset map count
+        mapsBetweenCollectable = 0;
+    }
+
     private void spawnHazards() {
         /* 0 = ground spawn (goomba or spike)
          * 1 = air spawn (bird or axe)
@@ -97,6 +134,7 @@ public class SpawnLevel : MonoBehaviour{
         }
         spawnedHazards = true;
     }
+
     private int flipNum(int num) {
         if (num == 0) {
             return 1;

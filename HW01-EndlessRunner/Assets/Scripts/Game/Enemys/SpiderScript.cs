@@ -43,7 +43,8 @@ public class SpiderScript : MonoBehaviour{
     }
 
     private void comboBreak() {
-        if (transform.position.x < -12 && !comboBroken) {
+        if (transform.position.x < -12 && !comboBroken && !GameManager.getSuperCombo()) {
+            //super combo active wont reset combo.
             GameManager.resetCombo();
         }
     }

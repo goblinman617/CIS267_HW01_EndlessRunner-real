@@ -21,7 +21,16 @@ public static class GameManager {
     private const float comboK = .36f;
     private const float scoreK = .005f;
     private const float speedReduction = 2f; // * time deltaTime
+
+    private static bool superCombo; //one of my collectables
     
+
+    public static void setSuperCombo(bool isActive) {
+        superCombo = isActive;
+    }
+    public static bool getSuperCombo() {
+        return superCombo;
+    }
 
     public static void setPopupText(int p) {
         popupText = p;
@@ -49,7 +58,12 @@ public static class GameManager {
         speed = calcSpeed(deltaTime);
     }
     public static void addCombo() {
-        combo++;
+        if (superCombo)
+        {
+            combo += 3; //probably unbalanced. who cares
+        } else {
+            combo++;
+        }
     }
     public static void resetCombo() {
         combo = 0;

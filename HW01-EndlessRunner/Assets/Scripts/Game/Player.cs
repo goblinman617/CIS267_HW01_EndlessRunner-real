@@ -24,6 +24,8 @@ public class Player : MonoBehaviour{
     public GameObject[] boots;
     private bool shielded;
     private int spikeBoots; // will have 10 uses
+    private float sComboTime;
+    private bool doOnce;
 
 
     // Start is called before the first frame update
@@ -42,7 +44,8 @@ public class Player : MonoBehaviour{
         frameCount = 0;
 
         shielded = false;
-        spikeBoots = 10;
+        spikeBoots = 0; //max 10 
+        doOnce = false;
     }
 
     // Update is called once per frame
@@ -52,6 +55,8 @@ public class Player : MonoBehaviour{
         GameManager.addScore(Time.deltaTime);
 
         CollisionDelay();
+
+        superComboCountdown();
     }
 
     private void CollisionDelay() { //should give like 
@@ -146,32 +151,54 @@ public class Player : MonoBehaviour{
         }
     }
 
-    private bool slidingWithBoots() {
+    private bool slidingWithBoots(Collision2D col) {
         if (Input.GetKey(KeyCode.LeftShift) && spikeBoots > 0) {
             spikeBoots--;
+
+            GameManager.addCombo();
+            Destroy(col.gameObject);
+
+            if (spikeBoots == 0) {
+                //remove boots
+                for (int i = 0; i < 2; i++) {
+                    boots[i].gameObject.SetActive(false);
+                }
+            }
+            //return true to not lose game
             return true;
         } else {
             return false;
         }
     }
 
+
+
+    //TRIGGER AND COLLISION
+    //======================================================================================
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Ground")) {
             //set speed on ground collision
-
+            
             curJumps = 0;
             rb.gravityScale = defaultGravity;
             grounded = true;
             animator.SetBool("PlayerAirborn", false);
         }else if (collision.gameObject.CompareTag("Enemy") && !triggerCollisionHappened) {
-            if (slidingWithBoots()) {
+            if (slidingWithBoots(collision)) {
                 //boot logic handled in function
+                //dont end the game
+                //kill enemy
+                //add combo
             } else if (shielded) {
+                //all of shield's functionality
+
+                //uses boots before shield
                 shielded = false;
                 shield.gameObject.SetActive(false);
                 //no game over remove shield
+            } else {
+                GameManager.setGameOver(true);
             }
-            GameManager.setGameOver(true);
         }
     }
     //if trigger and collision happen on same frame.
@@ -185,7 +212,64 @@ public class Player : MonoBehaviour{
             GameManager.addCombo();
             bounce();
         } else if (collision.gameObject.CompareTag("Collectable")) {
-            //do something
+
+            CollectableScript cScript = gameObject.GetComponent<CollectableScript>();
+            int collectableType = cScript.getType();
+
+
+            Destroy(collision.gameObject);
+            
+            switch (collectableType) {
+                case 0:
+                    collectBoots();
+                    break;
+                case 1:
+                    collectShield();
+                    break;
+                case 2:
+                    collectSuperCombo();
+                    break;
+                case 3:
+                    collectScore();
+                    break;
+                default:
+                    Debug.Log("Invalid Collectable Type");
+                    break;
+            }
+            
+        }
+    }
+    //============================================================================================
+
+
+
+    //collectables
+    //game object already destroyed
+    private void collectBoots() {
+        for(int i = 0; i < 2; i++) {
+            boots[i].gameObject.SetActive(true);
+        }
+        spikeBoots = 10; //10 charges of spiked boots
+    }
+    private void collectShield() {
+        shield.gameObject.SetActive(true);
+        shielded = true;
+    }
+    private void collectSuperCombo() {
+        GameManager.setSuperCombo(true);
+        sComboTime = 15f;
+    }
+    private void collectScore() {
+
+    }
+
+    private void superComboCountdown() {
+        if (sComboTime > 0) {
+            doOnce = true;
+            sComboTime -= Time.deltaTime;
+        }else if (doOnce == true) {
+            doOnce = false;
+            GameManager.setSuperCombo(false);
         }
     }
 }

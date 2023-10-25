@@ -186,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6860958714824564452
 Transform:
   m_ObjectHideFlags: 0
@@ -468,6 +468,7 @@ MonoBehaviour:
   quickFallSpeed: -15
   slideWaitTime: 0.5
   shield: {fileID: 4371170508452392100}
+  boots: []
 --- !u!95 &5086850377163703778
 Animator:
   serializedVersion: 5
@@ -589,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8334613678829274358
 Transform:
   m_ObjectHideFlags: 0

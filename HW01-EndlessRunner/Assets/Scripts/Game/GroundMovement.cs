@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GroundMovement : MonoBehaviour{
     public GameObject[] spawnLocations; //0,1=ground     //2=air
+    public GameObject[] collectableLocations;
     private float localSpeed;
     // Start is called before the first frame update
     void Start(){
