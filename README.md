@@ -1,2 +1,9 @@
 # CIS267_HW01_EndlessRunner-real
- I hate one drive
+
+space is jump hold to jump longer
+
+shift to slide
+
+shift in air to fast fall
+
+
