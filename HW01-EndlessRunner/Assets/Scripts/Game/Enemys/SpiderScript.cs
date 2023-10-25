@@ -8,10 +8,13 @@ public class SpiderScript : MonoBehaviour{
     private float distanceTraveled;
     private bool goLeft;
 
+    private bool comboBroken;
+
     //spider will just walk back and forth i guess
 
     // Start is called before the first frame update
     void Start(){
+        comboBroken = false;
         if (Random.Range(0, 2) == 1) {
             goLeft = true;
         } else {
@@ -40,7 +43,7 @@ public class SpiderScript : MonoBehaviour{
     }
 
     private void comboBreak() {
-        if (transform.position.x < -12) {
+        if (transform.position.x < -12 && !comboBroken) {
             GameManager.resetCombo();
         }
     }

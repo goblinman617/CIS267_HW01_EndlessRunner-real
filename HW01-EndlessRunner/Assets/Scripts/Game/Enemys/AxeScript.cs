@@ -7,11 +7,13 @@ public class AxeScript : MonoBehaviour{
     private float rotationVel;
     private float rotationZ;
     //public float rotationMinSpeed;
+    private bool gaveCombo;
 
     public float maxRotation; //75
     private bool rotateClockwise;
     // Start is called before the first frame update
     void Start(){
+        gaveCombo = false;
         rotationZ = maxRotation;
     }
 
@@ -19,6 +21,11 @@ public class AxeScript : MonoBehaviour{
     void Update(){
         setRotationSpeed();
         swing();
+
+        if (!gaveCombo && transform.position.x < -11) {
+            gaveCombo = true;
+            GameManager.addCombo();
+        }
     }
 
     private void swing() {
@@ -26,7 +33,6 @@ public class AxeScript : MonoBehaviour{
     }
     private void setRotationSpeed() {
         rotationVel += -(9.81f / length) * Mathf.Sin(transform.eulerAngles.z * (3.14f / 180f)) * Time.deltaTime;
-        Debug.Log("rotation velocity change" + rotationVel + "/n rotationZ" + rotationZ);
         rotationZ += rotationVel;
     }
 }

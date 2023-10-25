@@ -17,8 +17,4 @@ public class HighScores : MonoBehaviour{
         scores.text = scores_string;
     }
 
-    // Update is called once per frame
-    void Update(){
-        
-    }
 }

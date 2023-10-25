@@ -19,6 +19,12 @@ public class Player : MonoBehaviour{
     private bool triggerCollisionHappened;
     private int frameCount;
 
+    //for power ups
+    public GameObject shield;
+    public GameObject[] boots;
+    private bool shielded;
+    private int spikeBoots; // will have 10 uses
+
 
     // Start is called before the first frame update
     void Start(){
@@ -34,6 +40,9 @@ public class Player : MonoBehaviour{
         slideWaitDefaultTime = slideWaitTime;
         triggerCollisionHappened = false;
         frameCount = 0;
+
+        shielded = false;
+        spikeBoots = 10;
     }
 
     // Update is called once per frame
@@ -73,6 +82,8 @@ public class Player : MonoBehaviour{
             }
 
             //not holding space do a small bounce
+        } else if (Input.GetKey(KeyCode.LeftShift)) {
+            //no change in velocity if they are holding shift
         } else {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce * .333f);
         }
@@ -135,6 +146,15 @@ public class Player : MonoBehaviour{
         }
     }
 
+    private bool slidingWithBoots() {
+        if (Input.GetKey(KeyCode.LeftShift) && spikeBoots > 0) {
+            spikeBoots--;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Ground")) {
             //set speed on ground collision
@@ -144,8 +164,13 @@ public class Player : MonoBehaviour{
             grounded = true;
             animator.SetBool("PlayerAirborn", false);
         }else if (collision.gameObject.CompareTag("Enemy") && !triggerCollisionHappened) {
-
-            Debug.Log("enemy collision: " + Time.frameCount);
+            if (slidingWithBoots()) {
+                //boot logic handled in function
+            } else if (shielded) {
+                shielded = false;
+                shield.gameObject.SetActive(false);
+                //no game over remove shield
+            }
             GameManager.setGameOver(true);
         }
     }
@@ -159,7 +184,8 @@ public class Player : MonoBehaviour{
             Destroy(collision.gameObject);
             GameManager.addCombo();
             bounce();
-
+        } else if (collision.gameObject.CompareTag("Collectable")) {
+            //do something
         }
     }
 }

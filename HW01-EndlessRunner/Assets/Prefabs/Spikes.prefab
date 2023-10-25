@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6743569453635877041}
   - component: {fileID: 6006195134192317191}
   - component: {fileID: 4041120919106217593}
+  - component: {fileID: 1180703162173301684}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Enemy
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 78becd8a4dd7a454caf64dc87f28ed90, type: 3}
   m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_FlipX: 0
@@ -130,3 +131,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.22231995, y: 0.14049664}
   m_EdgeRadius: 0
+--- !u!114 &1180703162173301684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4503855721033772374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2536e8e378888fd47b30edf463e3879c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

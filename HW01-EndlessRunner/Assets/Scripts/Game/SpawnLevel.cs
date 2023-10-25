@@ -58,7 +58,7 @@ public class SpawnLevel : MonoBehaviour{
         int rand_selection = Random.Range(0, 4); //(0,8) FOR NOW WE SET TO 4 so no empty maps
         int rand_hazard = Random.Range(0, 2); //spike, goomba or bird, axe
         int rand_spawn_pos = Random.Range(0, 2);
-        switch (3){ // rand_selection
+        switch (rand_selection){ // rand_selection
             case 0:
                 //make GameObject of rand hazard at one of ground spawn locations
                 hazard = Instantiate(groundHazards[rand_hazard].gameObject, objScript.spawnLocations[rand_spawn_pos].gameObject.transform);

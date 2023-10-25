@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BatScript : MonoBehaviour{
     //fly back and forth over the area in the middle of the 2 spawns.
@@ -13,11 +15,14 @@ public class BatScript : MonoBehaviour{
     private Vector3 startingPos;
     private float distanceHorizontal;
     private float distanceVertical;
+
+    private bool addCombo;
     
     // Start is called before the first frame update
     void Start(){
         distanceHorizontal = 0;
         distanceVertical = 0;
+        addCombo = false;
 
         if (Random.Range(0, 2) == 1) {
             flyLeft = true;
@@ -38,6 +43,11 @@ public class BatScript : MonoBehaviour{
     void Update(){
         flyHorizontal();
         flyVertical();
+
+        if (!addCombo && transform.position.x < -11) {
+            GameManager.addCombo();
+            addCombo = true;
+        }
     }
 
     private void flyHorizontal() {

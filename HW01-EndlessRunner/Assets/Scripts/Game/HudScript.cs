@@ -11,7 +11,7 @@ public class HudScript : MonoBehaviour{
     public TMP_Text combo;
     public TMP_Text speed;
     public TMP_Text score_endScreen;
-    public TMP_Text popUp;
+    public TMP_Text popup;
     public GameObject gameOverScreen;
     public GameObject CSS_menu;
     private double curSpeed;
@@ -19,7 +19,7 @@ public class HudScript : MonoBehaviour{
     private const string txtScore = "Score: ";
     private const string txtCombo = "Combo: ";
 
-
+    private float countUp;
 
     // Update is called once per frame
     void Update(){
@@ -32,6 +32,7 @@ public class HudScript : MonoBehaviour{
             enableGameOverScreen();
         }
 
+        popupText(GameManager.getPopupText());
     }
     private void Start() {
         changedScene = false;
@@ -40,6 +41,9 @@ public class HudScript : MonoBehaviour{
         CSS_menu.SetActive(true);*/
     }
 
+    private void popupText(int executePopup) {
+       
+    }
     private void changeSpeedColor() {
         curSpeed = Math.Round(GameManager.getSpeed(), 2);
 

@@ -16,11 +16,19 @@ public static class GameManager {
     private static float score = 0;
 
     private static bool gameOver;
+    private static int popupText = 0;
     //variables for math (K for constant)
     private const float comboK = .36f;
     private const float scoreK = .005f;
     private const float speedReduction = 2f; // * time deltaTime
     
+
+    public static void setPopupText(int p) {
+        popupText = p;
+    }
+    public static int getPopupText() { 
+        return popupText;
+    }
     public static void resetAllValues() {
         baseSpeed = 3f;
         speed = 3f;
@@ -62,7 +70,7 @@ public static class GameManager {
             reducedSpeed = maxSpeed; //hard cap to max speed. sorry team
             return reducedSpeed;
         }else if (speed > baseSpeed) { //speed > baseSpeed
-            reducedSpeed = speed - (3.5f * speedReduction * deltaTime);
+            reducedSpeed = speed - (5f * speedReduction * deltaTime);
             return reducedSpeed;
         }else if (baseSpeed > maxBaseSpeed) {
             return maxBaseSpeed;
@@ -81,7 +89,7 @@ public static class GameManager {
         if (speed > maxSpeed) {
             speed -= speedReduction * deltaTime * 10f;
         }else if (speed > baseSpeed + 4) {
-            speed -= speedReduction * deltaTime * 2f;
+            speed -= speedReduction * deltaTime * 3.5f;
 
         }else if (speed > baseSpeed/2){
             speed -= speedReduction * deltaTime;
