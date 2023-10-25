@@ -19,7 +19,7 @@ public static class GameManager {
     private static int popupText = 0;
     //variables for math (K for constant)
     private const float comboK = .36f;
-    private const float scoreK = .00005f;
+    private const float scoreK = .005f;
     private const float speedReduction = 2f; // * time deltaTime
 
     private static bool superCombo; //one of my collectables
@@ -74,7 +74,7 @@ public static class GameManager {
     public static bool getGameOver() { return gameOver; }
     public static float getSpeed() { return speed; }
     public static void addScore(float deltaTime) {
-        score += (speed * deltaTime) + (combo * deltaTime * 10);// change the combo component when you make combo work.
+        score += (speed * deltaTime) + (combo * deltaTime * 10);
     }
 
 

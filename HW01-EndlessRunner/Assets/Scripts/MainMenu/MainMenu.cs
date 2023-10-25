@@ -16,4 +16,8 @@ public class MainMenu : MonoBehaviour{
     public void exitButton() {
         Application.Quit();
     }
+
+    public void highScoresButton() {
+        SceneManager.LoadScene("HighScores");
+    }
 }

@@ -9,11 +9,11 @@ public class SpiderScript : MonoBehaviour{
     private bool goLeft;
 
     private bool comboBroken;
-
     //spider will just walk back and forth i guess
 
     // Start is called before the first frame update
     void Start(){
+
         comboBroken = false;
         if (Random.Range(0, 2) == 1) {
             goLeft = true;

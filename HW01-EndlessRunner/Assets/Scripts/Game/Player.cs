@@ -152,7 +152,17 @@ public class Player : MonoBehaviour{
     }
 
     private bool slidingWithBoots(Collision2D col) {
-        if (Input.GetKey(KeyCode.LeftShift) && spikeBoots > 0) {
+        bool spikeBootable = false;
+
+        SpiderScript spiderScript;
+        spiderScript = col.gameObject.GetComponent<SpiderScript>();
+
+        if (spiderScript != null) {
+            spikeBootable = true;
+        }
+            
+
+        if (Input.GetKey(KeyCode.LeftShift) && spikeBoots > 0 && spikeBootable) {
             spikeBoots--;
 
             GameManager.addCombo();

@@ -15,4 +15,5 @@ public class SpikeScript : MonoBehaviour{
             GameManager.addCombo();
         }
     }
+
 }
