@@ -213,7 +213,8 @@ public class Player : MonoBehaviour{
             bounce();
         } else if (collision.gameObject.CompareTag("Collectable")) {
 
-            CollectableScript cScript = gameObject.GetComponent<CollectableScript>();
+            CollectableScript cScript;
+            cScript = collision.gameObject.GetComponent<CollectableScript>();
             int collectableType = cScript.getType();
 
 
@@ -260,7 +261,7 @@ public class Player : MonoBehaviour{
         sComboTime = 15f;
     }
     private void collectScore() {
-
+        GameManager.addCombo();
     }
 
     private void superComboCountdown() {

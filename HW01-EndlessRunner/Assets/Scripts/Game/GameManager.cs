@@ -19,7 +19,7 @@ public static class GameManager {
     private static int popupText = 0;
     //variables for math (K for constant)
     private const float comboK = .36f;
-    private const float scoreK = .005f;
+    private const float scoreK = .00005f;
     private const float speedReduction = 2f; // * time deltaTime
 
     private static bool superCombo; //one of my collectables
@@ -43,6 +43,7 @@ public static class GameManager {
         speed = 3f;
         combo = 0;
         score = 0;
+        superCombo = false;
     }
     public static void setGameOver(bool gameOverBool) {
         gameOver = gameOverBool;

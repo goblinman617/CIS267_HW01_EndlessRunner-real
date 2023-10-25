@@ -15,6 +15,7 @@ public class SpawnLevel : MonoBehaviour{
     private int mapsBetweenCollectable;
     private int lastCollectable;
     private int randomIndex;
+    private int coinSpot;
 
     // Start is called before the first frame update
     void Start(){
@@ -49,13 +50,13 @@ public class SpawnLevel : MonoBehaviour{
     }
 
     private void spawnScoreCollectable() {
-        int rand_i = Random.Range(0, 3);
+        coinSpot = Random.Range(0, 3);
 
         GroundMovement groundScript; 
         groundScript = spawnedObj.GetComponent<GroundMovement>();
 
         //3 is score collectable
-        Instantiate(collectables[3].gameObject, groundScript.collectableLocations[rand_i].gameObject.transform); //pray to god
+        Instantiate(collectables[3].gameObject, groundScript.collectableLocations[coinSpot].gameObject.transform); //pray to god
     }
 
     private void spawnCollectables() {
@@ -71,9 +72,12 @@ public class SpawnLevel : MonoBehaviour{
         } while (rand_i == lastCollectable);
         lastCollectable = rand_i;
 
-        rand_spawn_i = Random.Range(0, 3); //
+        //no spawning coin and power up on same spot
+        do {
+            rand_spawn_i = Random.Range(0, 3);
+        } while (rand_spawn_i == coinSpot);
 
-        Instantiate(collectables[rand_i].gameObject, groundScript.spawnLocations[rand_spawn_i].gameObject.transform);
+        Instantiate(collectables[rand_i].gameObject, groundScript.collectableLocations[rand_spawn_i].gameObject.transform);
 
         //reset map count
         mapsBetweenCollectable = 0;

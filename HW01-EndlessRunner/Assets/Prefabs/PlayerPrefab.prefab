@@ -326,7 +326,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 43d83ae2b77a9644fa8e0cdadc41fbc9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -468,7 +468,9 @@ MonoBehaviour:
   quickFallSpeed: -15
   slideWaitTime: 0.5
   shield: {fileID: 4371170508452392100}
-  boots: []
+  boots:
+  - {fileID: 8195822338706791561}
+  - {fileID: 3619227254441425923}
 --- !u!95 &5086850377163703778
 Animator:
   serializedVersion: 5
